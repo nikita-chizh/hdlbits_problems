@@ -12,10 +12,8 @@ module top_module(
             q <= {q[0], q[99:1]};
         else if (ena == 2'b10) // left
             q <= {q[98:0], q[99]};
-        // else if (ena == 2'b00)
-        //     q <= {1'b0, q[98:1]};
-        // else if (ena == 2'b11)
-        //     q <= {q[98:1], 1'b0};
+        else
+            q <= q;
     end
 
 
