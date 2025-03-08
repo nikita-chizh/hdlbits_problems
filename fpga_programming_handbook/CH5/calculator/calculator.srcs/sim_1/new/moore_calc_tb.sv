@@ -40,7 +40,7 @@ initial begin
     // module vars
     clk = 0;
     reset = 0;
-    start = 1;
+    start = 0;
     buttons = '0;
     operand = '0;
     accum = '0;
@@ -57,16 +57,19 @@ end
 always @(posedge clk) begin
     counter <= counter + 1;
     case (counter)
-        0: begin
+        1: begin
             // setttig up testcase
             buttons <= testcases[0].buttons;
             operand <= testcases[0].op1;
+            start <= 1;
         end
-        1: begin
-            operand <= testcases[0].op2;
-        end
+        2: operand <= testcases[0].op2;
+        5: begin
+            start <= 0;
+            reset <= 1;
+        end 
     endcase
-    $display("accum %d", accum);
+    $display("accum %d counter %d", accum, counter);
     if (counter == 8)
         $stop;
 end

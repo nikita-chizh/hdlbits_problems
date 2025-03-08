@@ -13,7 +13,6 @@ module calculator_moore #(parameter BITS = 32)
 
   localparam BC     = $clog2(BITS);
 
-  (* mark_debug = "true" *) logic [4:0]       op_store;
   (* mark_debug = "true" *) logic [4:0]       op_todo;
   (* mark_debug = "true" *) logic [BITS-1:0]  accumulator;
 
@@ -28,10 +27,11 @@ module calculator_moore #(parameter BITS = 32)
   always @(posedge clk) begin
     case (state)
       IDLE: begin
-        op_todo     <= buttons; // operation to perform
-        accumulator <= operand;
-        if (start) // 
-            state <= WAIT4BUTTON;
+        if (start) begin
+          op_todo     <= buttons; // operation to perform
+          accumulator <= operand;
+          state <= WAIT4BUTTON;
+        end
       end
       WAIT4BUTTON: begin
         // istantly transfers us to actuall op_todo execution logic
@@ -63,14 +63,13 @@ module calculator_moore #(parameter BITS = 32)
           accumulator <= 0;
         state       <= IDLE;
       end
-      RESET: begin
-        accumulator <= '0;
-        state       <= IDLE;
-        op_todo     <= '0;
-      end
     endcase // case (state)
     if (reset)
-        state <= RESET;
+    begin
+      op_todo     <= '0; // operation to perform
+      accumulator <= '0;
+      state <= '0;
+    end
   end
 
   assign accum = accumulator;
