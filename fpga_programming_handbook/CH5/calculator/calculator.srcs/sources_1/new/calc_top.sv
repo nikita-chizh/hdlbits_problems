@@ -52,7 +52,8 @@ module calculator_top
   endgenerate
 
   logic [31:0]                        accumulator;
-  (* mark_debug = "true" *) logic [NUM_SEGMENTS-1:0][3:0]       encoded;
+  (* mark_debug = "true" *) 
+  logic [NUM_SEGMENTS-1:0][3:0]       encoded;
   logic [NUM_SEGMENTS-1:0]            digit_point;
 
   // Capture button events
@@ -83,11 +84,11 @@ module calculator_top
         if (counter_en) begin
             counter <= counter + 1'b1;
             if (&counter) begin
-            counter_en  <= '0;
-            counter     <= '0;
-            button_down <= '1;
-            button_capt <= buttons;
-            sw_capt     <= SW;
+                counter_en  <= '0;
+                counter     <= '0;
+                button_down <= '1;
+                button_capt <= buttons;
+                sw_capt     <= SW;
             end
         end
         if (reset) begin
