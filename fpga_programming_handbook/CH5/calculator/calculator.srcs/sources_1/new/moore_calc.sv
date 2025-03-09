@@ -68,7 +68,7 @@ module calculator_moore #(parameter BITS = 32)
     begin
       op_todo     <= '0; // operation to perform
       accumulator <= '0;
-      state <= '0;
+      state <= IDLE;
     end
   end
 
