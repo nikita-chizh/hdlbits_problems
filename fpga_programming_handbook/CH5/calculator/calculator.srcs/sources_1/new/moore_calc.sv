@@ -4,7 +4,7 @@ module calculator_moore #(parameter BITS = 32)
     input wire               clk,
     input wire               reset,
     input wire               start,
-    input wire [4:0]         buttons,
+    input wire [4:0]         operation,
     input wire signed [BITS-1:0] operand,
 
     output logic [BITS-1:0]  accum
@@ -28,7 +28,7 @@ module calculator_moore #(parameter BITS = 32)
     case (state)
       IDLE: begin
         if (start) begin
-          op_todo     <= buttons; // operation to perform
+          op_todo     <= operation; // operation to perform
           accumulator <= operand;
           state <= WAIT4BUTTON;
         end
