@@ -56,10 +56,7 @@ module calculator_moore #(parameter BITS = 32)
         state       <= IDLE;
       end
       DIV: begin
-        if (operand != 0)
-          accumulator <= accumulator / operand;
-        else
-          accumulator <= 0;
+        accumulator <= 0;
         state       <= IDLE;
       end
     endcase // case (state)
