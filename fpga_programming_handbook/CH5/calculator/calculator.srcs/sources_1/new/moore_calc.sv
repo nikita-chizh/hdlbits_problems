@@ -6,7 +6,6 @@ module calculator_moore #(parameter BITS = 32)
     input wire               start,
     input wire [4:0]         operation,
     input wire signed [BITS-1:0] operand,
-
     output logic [BITS-1:0]  accum
    );
   import calculator_pkg::*;
@@ -14,7 +13,7 @@ module calculator_moore #(parameter BITS = 32)
   localparam BC     = $clog2(BITS);
 
   (* mark_debug = "true" *) logic [4:0]       op_todo;
-  (* mark_debug = "true" *) logic [BITS-1:0]  accumulator;
+  (* mark_debug = "true" *) logic signed [BITS-1:0]  accumulator;
 
   typedef enum bit [2:0] {IDLE, WAIT4BUTTON, ADD, SUB, MULT, DIV, RESET} state_t;
 

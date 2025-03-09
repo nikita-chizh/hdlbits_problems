@@ -10,9 +10,9 @@
 module calculator_top
   #
   (
-   parameter BITS         = 16,
+   parameter BITS         = 32,
    parameter NUM_SEGMENTS = `NUM_SEGMENTS,
-   parameter USE_PLL      = "FALSE"
+   parameter USE_PLL      = "TRUE"
    )
   (
    input wire                      clk,
