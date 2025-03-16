@@ -11,26 +11,23 @@ module seven_segment
   (
    parameter NUM_SEGMENTS = 8,
    parameter CLK_PER      = 10,  // Clock period in ns
-   parameter REFR_RATE    = 1000 // SCREEN Refresh rate in Hz
+   parameter REFR_RATE    = 1000 // Refresh rate in Hz
    )
   (
    input wire                         clk,
    input wire                         reset, // active high reset
-   input wire [NUM_SEGMENTS-1:0][3:0] encoded,      // each represents value 0..15
-   input wire [NUM_SEGMENTS-1:0]      digit_point,  // show little floating point
-   output logic [NUM_SEGMENTS-1:0]    anode,  // came from xrp, actuall interface
-   output logic [7:0]                 cathode // came from xrp, actuall interface
+   input wire [NUM_SEGMENTS-1:0][3:0] encoded,
+   input wire [NUM_SEGMENTS-1:0]      digit_point,
+   output logic [NUM_SEGMENTS-1:0]    anode,
+   output logic [7:0]                 cathode
    );
 
-  localparam nanos_in_sec = 1000000000;
-  localparam INTERVAL = integer (nanos_in_sec / (CLK_PER * REFR_RATE));
-  
-  longint refresh_count;
-  logic [$clog2(NUM_SEGMENTS)-1:0]    anode_count; // [3:0] vals: 0...7
+  localparam INTERVAL = int'(100000000 / (CLK_PER * REFR_RATE));
+
+  logic [$clog2(INTERVAL)-1:0]        refresh_count;
+  logic [$clog2(NUM_SEGMENTS)-1:0]    anode_count;
   logic [NUM_SEGMENTS-1:0][7:0]       segments;
 
-  // each cathode represents one num
-  // int arr[3] = '{5,6,7}; legit syntax
   cathode_top ct[NUM_SEGMENTS]
     (
      .clk        (clk),
@@ -48,16 +45,15 @@ module seven_segment
     if (refresh_count == INTERVAL) begin
       refresh_count          <= '0;
       anode_count            <= anode_count + 1'b1;
-    end
-    else
+    end else
       refresh_count <= refresh_count + 1'b1;
-      anode                    <= '1;
-      anode[anode_count]       <= '0; // active low 
-      cathode                  <= segments[anode_count];
-      if (reset) begin
-        refresh_count          <= '0;
-        anode_count            <= '0;
-      end
+    anode                    <= '1;
+    anode[anode_count]       <= '0;
+    cathode                  <= segments[anode_count];
+    if (reset) begin
+      refresh_count          <= '0;
+      anode_count            <= '0;
+    end
   end
 
 endmodule

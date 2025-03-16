@@ -22,7 +22,9 @@ module cool_calculator_top_tb();
         cathode = '0;
         #10;
         #5 BTNL = 1;
-        #500;
+        #200;
+        #5 CPU_RESETN = 1;
+        #200;
         #10 $finish;
     end
 

@@ -25,7 +25,7 @@ module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
 
     // (* mark_debug = "true" *)
     (* mark_debug = "true" *) logic [NUM_SEGMENTS-1:0][3:0] encoded;
-    logic [NUM_SEGMENTS-1:0]      digit_point;
+    logic [NUM_SEGMENTS-1:0]      digit_point = '0;
     // (* mark_debug = "true" *) logic [31:0] accumulator; // value to be sent to display later
 
     seven_segment #(.NUM_SEGMENTS (NUM_SEGMENTS))
@@ -39,11 +39,14 @@ module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
         );
     
     always @(posedge clk) begin
-        // encoded     <= {BTNL & BTNL_debounced};
-        // encoded     <= debounced;
-        // encoded     <= BTNL; // WORKS
-        encoded     <= {BTNL & debounced};
-        digit_point <= '1;
+        if (CPU_RESETN) begin
+            // active lo
+            encoded <= '0;
+        end else begin
+            if (BTNL & debounced) 
+                encoded <= {NUM_SEGMENTS{4'hF}};
+            else
+                encoded <= '0;
+        end
     end
-
 endmodule

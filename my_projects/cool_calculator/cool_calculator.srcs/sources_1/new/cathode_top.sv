@@ -15,7 +15,7 @@ module cathode_top
     case (encoded)
       // 0 is on !!!
       // mapping: {G,F,E,D,C,B,A}
-      4'h0: cathode[6:0] <= 7'b1000000;
+      4'h0: cathode[6:0] <= 7'b1111111;
       4'h1: cathode[6:0] <= 7'b1111001;
       4'h2: cathode[6:0] <= 7'b0100100;
       4'h3: cathode[6:0] <= 7'b0110000;
