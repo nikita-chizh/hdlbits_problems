@@ -15,12 +15,11 @@ module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
     , input wire CPU_RESETN
     , output logic [NUM_SEGMENTS-1:0] anode
     , output logic [7:0] cathode);
-    localparam clock_period = 10; // ns
-    localparam num_cycles_milisecond = 100000; // num_cycles_milisecond * clock_period == 10^6 ns
-    localparam BITS = 32;
+    // localparam num_cycles_milisecond = 2;
+    // localparam BITS = 32;
 
-    logic BTNL_debounced = 0;
-    button_debouncing #(num_cycles_milisecond) 
+    logic BTNL_debounced;
+    button_debouncing #(.NUMBER_OF_CYCLES (10)) 
     debounce_BTNL(clk, CPU_RESETN, BTNL, BTNL_debounced);
 
     (* mark_debug = "true" *)
@@ -28,7 +27,7 @@ module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
     logic [NUM_SEGMENTS-1:0]      digit_point;
     logic [31:0]                  accumulator; // value to be sent to display later
 
-    seven_segment #(.NUM_SEGMENTS (NUM_SEGMENTS), .CLK_PER(20))
+    seven_segment #(.NUM_SEGMENTS (NUM_SEGMENTS))
     u_seven_segment(
         .clk          (clk),
         .reset        (CPU_RESETN),
@@ -38,10 +37,8 @@ module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
         .cathode      (cathode)
         );
     
-    assign accumulator = BTNL_debounced ? 12345 : 0;
-
     always_ff @(posedge clk) begin
-        encoded     <= accumulator;
+        encoded     <= {BTNL & BTNL_debounced};
         digit_point <= '1;
     end
 
