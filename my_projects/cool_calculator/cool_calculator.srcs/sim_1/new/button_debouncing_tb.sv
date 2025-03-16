@@ -11,6 +11,10 @@ module button_debouncing_tb();
     logic button;
     logic debounced;
     
+    logic [7:0][3:0] encoded;
+
+    
+
     // Instantiate the Button Debouncing module
     button_debouncing #(NUMBER_OF_CYCLES) uut (
         .clk(clk),
@@ -21,6 +25,14 @@ module button_debouncing_tb();
 
     // Generate Clock (Period = 10ns -> 100MHz)
     always #5 clk = ~clk;
+    
+    always @(posedge clk) begin
+        encoded     <= {button & debounced};
+        $display("button %b debounced %b", button, debounced);
+        if (encoded) begin
+            $display("encoded %b", encoded);
+        end
+    end
 
     // Test Procedure
     initial begin
@@ -30,6 +42,7 @@ module button_debouncing_tb();
         button = 0;
         debounced = 0;
         button = 0;
+        encoded = 0;
         #110;
         #5 button = 1;
         #20;

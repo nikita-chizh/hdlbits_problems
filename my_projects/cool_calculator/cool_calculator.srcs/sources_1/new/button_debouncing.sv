@@ -14,9 +14,10 @@ module button_debouncing
             button_prev <= 0;
         end
         else begin
-            if (button == button_prev)
-                counter <= counter != NUMBER_OF_CYCLES ? counter <= counter + 1 : counter;
-            else
+            if (button == button_prev) begin
+                if (counter != NUMBER_OF_CYCLES)
+                    counter <= counter + 1;
+            end else
                 counter <= 0;
             button_prev <= button;
         end   

@@ -18,9 +18,14 @@ module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
     // localparam num_cycles_milisecond = 2;
     // localparam BITS = 32;
 
-    logic BTNL_debounced;
+    logic debounced;
     button_debouncing #(.NUMBER_OF_CYCLES (10)) 
-    debounce_BTNL(clk, CPU_RESETN, BTNL, BTNL_debounced);
+    debounce_BTNL(
+        .clk(clk),
+        .rst(CPU_RESETN),
+        .button(BTNL),
+        .debounced(debounced)
+    );
 
     (* mark_debug = "true" *)
     logic [NUM_SEGMENTS-1:0][3:0] encoded;
@@ -37,8 +42,11 @@ module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
         .cathode      (cathode)
         );
     
-    always_ff @(posedge clk) begin
-        encoded     <= {BTNL & BTNL_debounced};
+    always @(posedge clk) begin
+        // encoded     <= {BTNL & BTNL_debounced};
+        // encoded     <= BTNL_debounced;
+        // encoded     <= BTNL; // WORKS
+        encoded     <= {BTNL & debounced};
         digit_point <= '1;
     end
 
