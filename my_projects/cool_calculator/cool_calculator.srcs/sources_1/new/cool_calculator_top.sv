@@ -7,18 +7,15 @@
 module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
 (
     input wire clk
-    , input wire BTNC
-    , input wire BTNU
     , input wire BTNL
-    , input wire BTNR
-    , input wire BTND
     , input wire CPU_RESETN
     , output logic [NUM_SEGMENTS-1:0] anode
-    , output logic [7:0] cathode);
+    , output logic [7:0] cathode
+    , output logic [NUM_SEGMENTS-1:0][3:0] encoded);
     // localparam num_cycles_milisecond = 2;
     // localparam BITS = 32;
 
-    logic debounced;
+    (* mark_debug = "true" *) logic debounced;
     button_debouncing #(.NUMBER_OF_CYCLES (10)) 
     debounce_BTNL(
         .clk(clk),
@@ -27,10 +24,10 @@ module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
         .debounced(debounced)
     );
 
-    (* mark_debug = "true" *)
-    logic [NUM_SEGMENTS-1:0][3:0] encoded;
+    // (* mark_debug = "true" *)
+    // logic [NUM_SEGMENTS-1:0][3:0] encoded;
     logic [NUM_SEGMENTS-1:0]      digit_point;
-    logic [31:0]                  accumulator; // value to be sent to display later
+    // (* mark_debug = "true" *) logic [31:0] accumulator; // value to be sent to display later
 
     seven_segment #(.NUM_SEGMENTS (NUM_SEGMENTS))
     u_seven_segment(
