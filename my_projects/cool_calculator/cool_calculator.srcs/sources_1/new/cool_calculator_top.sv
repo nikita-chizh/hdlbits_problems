@@ -10,8 +10,7 @@ module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
     , input wire BTNL
     , input wire CPU_RESETN
     , output logic [NUM_SEGMENTS-1:0] anode
-    , output logic [7:0] cathode
-    , output logic [NUM_SEGMENTS-1:0][3:0] encoded);
+    , output logic [7:0] cathode);
     // localparam num_cycles_milisecond = 2;
     // localparam BITS = 32;
 
@@ -25,7 +24,7 @@ module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
     );
 
     // (* mark_debug = "true" *)
-    // logic [NUM_SEGMENTS-1:0][3:0] encoded;
+    (* mark_debug = "true" *) logic [NUM_SEGMENTS-1:0][3:0] encoded;
     logic [NUM_SEGMENTS-1:0]      digit_point;
     // (* mark_debug = "true" *) logic [31:0] accumulator; // value to be sent to display later
 
@@ -41,9 +40,9 @@ module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
     
     always @(posedge clk) begin
         // encoded     <= {BTNL & BTNL_debounced};
-        // encoded     <= BTNL_debounced;
+        encoded     <= debounced;
         // encoded     <= BTNL; // WORKS
-        encoded     <= {BTNL & debounced};
+        // encoded     <= {BTNL & debounced};
         digit_point <= '1;
     end
 
