@@ -40,9 +40,9 @@ module cool_calculator_top # (parameter NUM_SEGMENTS = `NUM_SEGMENTS)
     
     always @(posedge clk) begin
         // encoded     <= {BTNL & BTNL_debounced};
-        encoded     <= debounced;
+        // encoded     <= debounced;
         // encoded     <= BTNL; // WORKS
-        // encoded     <= {BTNL & debounced};
+        encoded     <= {BTNL & debounced};
         digit_point <= '1;
     end
 

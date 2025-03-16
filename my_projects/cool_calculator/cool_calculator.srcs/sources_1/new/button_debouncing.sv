@@ -22,6 +22,6 @@ module button_debouncing
             button_prev <= button;
         end   
     end
-    assign debounced = {counter == NUMBER_OF_CYCLES};
-    
+    assign debounced = (counter == NUMBER_OF_CYCLES);
+    // assign debounced = 1;
 endmodule
