@@ -58,7 +58,7 @@ module calculator_top #(parameter BITS = 32, parameter NUM_SEGMENTS = `NUM_SEGME
         button_down <= '0;
         button_capt <= '0;
         button_sync <= button_sync << 1 | (|buttons);
-        if (button_sync[2:1] == 2'b01) 
+        if (button_sync[2:1] == 2'b01)
             counter_en <= '1;
         else if (~button_sync[1])
             counter_en <= '0;

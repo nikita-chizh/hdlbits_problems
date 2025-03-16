@@ -54,5 +54,4 @@ module only_one_button
         end
     end
     assign pressed_one = pressed;
-
 endmodule
