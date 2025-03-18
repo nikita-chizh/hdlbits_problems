@@ -11,6 +11,3 @@ module top_module (
             q <= d;
 
 endmodule
-
-nikitos228
-2112916wq
